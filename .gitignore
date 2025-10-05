@@ -1,18 +1,12 @@
 # Node modules
-node_modules/
-edviewx.psgtech.ac.in/node_modules/
-backend/node_modules/
+**/node_modules/
 
 # Env files
 *.env
-edviewx.psgtech.ac.in/.env
-backend/.env
 
 # Build outputs
 .next/
-dist/
-edviewx.psgtech.ac.in/dist/
-backend/dist/
+**/dist/
 
 # Logs
 *.log
