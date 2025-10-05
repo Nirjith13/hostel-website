@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECAMPUS - Student Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: #1e3a8a;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            position: relative;
+        }
+
+        .logo::before {
+            content: '';
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #1e3a8a;
+            border-radius: 2px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e3a8a;
+            letter-spacing: 1px;
+        }
+
+        .user-profile {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-profile::before {
+            content: 'A';
+            color: #1e3a8a;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .main-content {
+            padding: 40px 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .feature-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            background: #f8fafc;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .feature-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 20px;
+        }
+
+        .feature-description {
+            color: #64748b;
+            line-height: 1.6;
+            font-size: 15px;
+            font-style: italic;
+        }
+
+        /* Custom icons for each feature */
+        .attendance-icon {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .attendance-icon::before {
+            content: '📱';
+            font-size: 48px;
+        }
+
+        .ca-icon {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 12px;
+        }
+
+        .ca-icon::before {
+            content: '💻';
+            font-size: 48px;
+        }
+
+        .feedback-icon {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-radius: 12px;
+        }
+
+        .feedback-icon::before {
+            content: '💬';
+            font-size: 48px;
+        }
+
+        .fees-icon {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            border-radius: 12px;
+        }
+
+        .fees-icon::before {
+            content: '💰';
+            font-size: 48px;
+        }
+
+        .hostel-icon {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            border-radius: 12px;
+        }
+
+        .hostel-icon::before {
+            content: '🏢';
+            font-size: 48px;
+        }
+
+        .scholarships-icon {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-radius: 12px;
+        }
+
+        .scholarships-icon::before {
+            content: '🏆';
+            font-size: 48px;
+        }
+
+        .footer {
+            background: #1e3a8a;
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .footer-url {
+            color: #93c5fd;
+        }
+
+        .footer-brand {
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+
+            .logo-text {
+                font-size: 20px;
+            }
+
+            .main-content {
+                padding: 30px 20px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .feature-card {
+                padding: 30px 20px;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo"></div>
+            <div class="logo-text">ECAMPUS</div>
+        </div>
+        <div class="user-profile"></div>
+    </header>
+
+    <main class="main-content">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div class="attendance-icon"></div>
+                </div>
+                <h2 class="feature-title">Attendance</h2>
+                <p class="feature-description">
+                    "Time waits for no one, but it rewards those who honor it."
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div class="ca-icon"></div>
+                </div>
+                <h2 class="feature-title">CA</h2>
+                <p class="feature-description">
+                    "The beautiful thing about learning is nobody can take it away from you." - B.B.King.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div class="feedback-icon"></div>
+                </div>
+                <h2 class="feature-title">Feedback</h2>
+                <p class="feature-description">
+                    "We all need people who will give us feedback. That's how we improve." - Bill Gates
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div class="fees-icon"></div>
+                </div>
+                <h2 class="feature-title">Fees</h2>
+                <p class="feature-description">
+                    "Price is what you pay, value is what you get." - Warren Buffet.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div class="hostel-icon"></div>
+                </div>
+                <h2 class="feature-title">Hostel</h2>
+                <p class="feature-description">
+                    "Hostel life is a microcosm of life itself, where you learn about diversity, adaptability, and the value of human connections."
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div class="scholarships-icon"></div>
+                </div>
+                <h2 class="feature-title">Scholarships</h2>
+                <p class="feature-description">
+                    "Most of the things worth doing in the world had been declared impossible before they were done." - Louis D Brandeis.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-url">https://ecampus.psgtech.ac.in/studzone/ContinuousAssessment/CAMenu</div>
+        <div class="footer-brand">PSG Software Technologies</div>
+    </footer>
+</body>
+</html>
