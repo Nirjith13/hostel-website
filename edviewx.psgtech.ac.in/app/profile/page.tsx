@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle, Plus, Home, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { useRouter } from "next/navigation"
 
 function normalizeResponse(res: any) {
   if (!res) return null
@@ -15,6 +16,7 @@ function normalizeResponse(res: any) {
 }
 
 export default function ProfilePage() {
+  const router = useRouter()
   const [personalInfo, setPersonalInfo] = useState<any>(null)
   const [financialInfo, setFinancialInfo] = useState({ establishment: 0, deposit: 0, balance: 0 })
   const [depositAmount, setDepositAmount] = useState<number | "">(0)
@@ -257,6 +259,19 @@ const handleRoomUpdate = async () => {
             </Button>
           </CardContent>
         </Card>
+
+        {/* Logout Button */}
+        <div className="mt-6">
+          <Button
+            onClick={() => {
+              localStorage.removeItem("token");
+              router.push("/login");
+            }}
+            className="bg-red-600 hover:bg-red-700 text-white"
+          >
+            Logout
+          </Button>
+        </div>
       </div>
     </div>
   )

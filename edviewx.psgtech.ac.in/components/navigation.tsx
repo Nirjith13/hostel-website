@@ -1,5 +1,6 @@
 "use client"
 
+import React from "react"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -66,13 +67,9 @@ export default function Navigation() {
   // convenience handler for logout
   const handleLogout = (closeSheet = false) => {
     localStorage.removeItem("token")
-    // optionally remove other auth info if present
-    // localStorage.removeItem("username")
-    // trigger listeners (same tab)
     window.dispatchEvent(new Event("auth"))
     if (closeSheet) setIsOpen(false)
-    // optional redirect:
-    if (typeof window !== "undefined") window.location.href = "/"
+    if (typeof window !== "undefined") window.location.href = "/login" // <-- redirect to login
   }
 
   const isActive = (href: string) => {
@@ -102,48 +99,31 @@ export default function Navigation() {
             {navigation.map((item) => {
               const Icon = item.icon
               return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                    isActive(item.href)
-                      ? "bg-white/20 text-white shadow-lg"
-                      : "text-white/80 hover:text-white hover:bg-white/10"
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span>{item.name}</span>
-                </Link>
+                <React.Fragment key={item.name}>
+                  <Link
+                    href={item.href}
+                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                      isActive(item.href)
+                        ? "bg-white/20 text-white shadow-lg"
+                        : "text-white/80 hover:text-white hover:bg-white/10"
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span>{item.name}</span>
+                  </Link>
+                  {/* Always show Logout button next to Mess Details for testing */}
+                  {item.name === "Mess Details" && (
+                    <Button
+                      variant="ghost"
+                      className="text-white hover:bg-white/10 ml-2"
+                      onClick={() => handleLogout(false)}
+                    >
+                      ⍈ Logout
+                    </Button>
+                  )}
+                </React.Fragment>
               )
             })}
-          </div>
-
-          {/* Auth Buttons */}
-          <div className="hidden md:flex items-center space-x-3">
-            {!isLoggedIn ? (
-              <>
-                <Link href="/login">
-                  <Button variant="ghost" className="text-white hover:bg-white/10">
-                    <LogIn className="w-4 h-4 mr-2" />
-                    Login
-                  </Button>
-                </Link>
-                <Link href="/register">
-                  <Button className="bg-white text-blue-600 hover:bg-white/90">
-                    <UserPlus className="w-4 h-4 mr-2" />
-                    Register
-                  </Button>
-                </Link>
-              </>
-            ) : (
-              <Button
-                variant="ghost"
-                className="text-white hover:bg-white/10"
-                onClick={() => handleLogout(false)}
-              >
-                Logout
-              </Button>
-            )}
           </div>
 
           {/* Mobile menu button */}
@@ -198,26 +178,11 @@ export default function Navigation() {
                 </div>
 
                 <div className="border-t pt-6 space-y-3">
-                  {!isLoggedIn ? (
-                    <>
-                      <Link href="/login" onClick={() => setIsOpen(false)}>
-                        <Button variant="outline" className="w-full justify-start bg-transparent">
-                          <LogIn className="w-4 h-4 mr-2" />
-                          Login
-                        </Button>
-                      </Link>
-                      <Link href="/register" onClick={() => setIsOpen(false)}>
-                        <Button className="w-full justify-start bg-blue-600 hover:bg-blue-700">
-                          <UserPlus className="w-4 h-4 mr-2" />
-                          Register
-                        </Button>
-                      </Link>
-                    </>
-                  ) : (
+                  {isLoggedIn && (
                     <Button
                       className="w-full justify-start bg-red-500 hover:bg-red-600 text-white"
                       onClick={() => {
-                        handleLogout(true) // logout and close sheet
+                        handleLogout(true)
                       }}
                     >
                       Logout
