@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -21,32 +21,30 @@ export default function LoginPage() {
     password: "",
   })
   const router = useRouter()
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setIsLoading(true);
-  setError("");
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
 
-  try {
-    const res = await axios.post("http://localhost:5000/api/auth/login", {
-      email: formData.email,
-      password: formData.password,
-    });
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
+        email: formData.email,
+        password: formData.password,
+      });
 
-    if (!res.data.success) {
-      setError(res.data.message || "Login failed");
-    } else {
-      // Optionally store JWT in localStorage for authenticated routes
-      localStorage.setItem("token", res.data.token);
-      console.log(res.data.token);
-      router.push("/"); // redirect to home/dashboard
+      if (!res.data.success) {
+        setError(res.data.message || "Login failed");
+      } else {
+        localStorage.setItem("token", res.data.token);
+        console.log(res.data.token);
+        router.push("/");
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.message || "An error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-  } catch (err: any) {
-    setError(err.response?.data?.message || "An error occurred. Please try again.");
-  } finally {
-    setIsLoading(false);
-  }
-};
-
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
@@ -55,8 +53,25 @@ const handleSubmit = async (e: React.FormEvent) => {
     }))
   }
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token")
+      if (!token) {
+        router.push("/login")
+      }
+    }
+  }, [])
+
   return (
-    <div className="min-h-screen gradient-bg flex items-center justify-center p-4">
+    <div
+      className="min-h-screen flex items-center justify-center p-4"
+      style={{
+        backgroundImage: 'url("/images/imagebg.jpg")',
+        backgroundSize: 'cover', // <-- fully stretches and centers the image
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       <div className="w-full max-w-md">
         {/* Back to Home */}
         <Link href="/" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-8 transition-colors">
@@ -64,9 +79,9 @@ const handleSubmit = async (e: React.FormEvent) => {
           Back to Home
         </Link>
 
-        <Card className="glass-card border-0 shadow-2xl">
+        <Card className="border-0 shadow-2xl rounded-3xl bg-white">
           <CardHeader className="text-center pb-8">
-            <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <div className="w-16 h-16 bg-white rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg">
               <div className="text-2xl font-bold text-blue-600">EC</div>
             </div>
             <CardTitle className="text-2xl font-bold text-gray-900">Welcome Back</CardTitle>

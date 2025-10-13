@@ -120,7 +120,15 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen gradient-bg flex items-center justify-center p-4">
+    <div
+      className="min-h-screen flex items-center justify-center p-4"
+      style={{
+        backgroundImage: 'url("/images/imagebg.jpg")',
+        backgroundSize: 'contain', // prevents zooming, shows full image
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       <div className="w-full max-w-2xl">
         {/* Back to Home */}
         <Link href="/" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-8 transition-colors">
@@ -128,9 +136,9 @@ export default function RegisterPage() {
           Back to Home
         </Link>
 
-        <Card className="glass-card border-0 shadow-2xl">
+        <Card className="border-0 shadow-2xl rounded-3xl bg-white">
           <CardHeader className="text-center pb-8">
-            <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <div className="w-16 h-16 bg-white rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg">
               <div className="text-2xl font-bold text-blue-600">EC</div>
             </div>
             <CardTitle className="text-2xl font-bold text-gray-900">Create Account</CardTitle>
@@ -256,7 +264,7 @@ export default function RegisterPage() {
                     Year of Study
                   </Label>
                   <Select onValueChange={(value) => handleSelectChange("year", value)}>
-                    <SelectTrigger className="h-12">
+                    <SelectTrigger className="h-12 bg-white">
                       <SelectValue placeholder="Select year" />
                     </SelectTrigger>
                     <SelectContent>
@@ -275,7 +283,7 @@ export default function RegisterPage() {
                     Department
                   </Label>
                   <Select onValueChange={(value) => handleSelectChange("department", value)}>
-                    <SelectTrigger className="h-12">
+                    <SelectTrigger className="h-12 bg-white">
                       <SelectValue placeholder="Select department" />
                     </SelectTrigger>
                     <SelectContent>
